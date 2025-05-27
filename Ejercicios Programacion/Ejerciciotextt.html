@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label >Ingrese su Ahorro Mensual :</label>
+    <input type="number" id="ahorro_mensual">
+    <br><br>
+    <label >Cuantos meses ha ahorrado durante el año : </label>
+    <input type="number" id="meses">
+    <br><br>
+    <label >Cuantas metas de ahorro a cumplido ( 0 - 5) </label>
+    <input type="number" id="metas">
+    <br><br>
+    <button onclick="Calcular()">Calcular</button>
+    <br><br>
+    <p id="ahorro_anual"></p>
+    <p id="porcentaje_bonificacion"></p>
+    <p id="incremento_metas"></p>
+    <p id="bonificacion_total"></p>
+    <p id="mensaje"></p>
+
+    <script>
+        function Calcular(){
+            let ahorro_mensual = parseFloat(document.getElementById("ahorro_mensual").value);
+            let meses = parseInt(document.getElementById("meses").value);
+            let metas = parseInt(document.getElementById("metas").value);
+
+            let ahorro_anual_p = document.getElementById("ahorro_anual");
+            let porcentaje_bonificacion_p = document.getElementById("porcentaje_bonificacion");
+            let incremento_metas_p = document.getElementById("incremento_metas");
+            let bonificacion_total_p = document.getElementById("bonificacion_total");
+            let mensaje = document.getElementById("mensaje");
+
+            
+            if(isNaN(ahorro_mensual)|| ahorro_mensual <= 0 || isNaN(meses)|| meses > 12 || isNaN(metas)|| metas > 5 ){
+                mensaje.textContent = "Ingrese Valores Validos.. Maximo de Metas es : 5 ";
+                return;
+            }
+            mensaje.textContent = "";
+
+            let ahorro_anual = ahorro_mensual * meses ;
+            let porcentaje_bonificacion = 0;
+            
+            if ( ahorro_anual < 5000 ){
+                porcentaje_bonificacion = 2;
+            }else if ( ahorro_anual <= 10000 ){
+                porcentaje_bonificacion = 5;
+            }else if ( ahorro_anual <= 20000 ){
+                porcentaje_bonificacion = 7;
+            }else{
+                porcentaje_bonificacion = 10;
+            }
+
+            let porcentaje_metas = metas * 0.5;
+
+            let bonificacion = ahorro_anual * (porcentaje_bonificacion / 100 );
+            let incremento_metas = ahorro_anual * (porcentaje_metas / 100);
+            let bonificacion_total = bonificacion + incremento_metas;
+
+            ahorro_anual_p.textContent = `Su ahorro anual es de : $  ${ahorro_anual.toFixed(2)}`;
+            porcentaje_bonificacion_p.textContent = "Porcentaje de Bonificacion : " + porcentaje_bonificacion + "%";
+            incremento_metas_p.textContent = "Incremento por Metas del : " + porcentaje_metas + "%";
+            bonificacion_total_p.textContent = "Bonificacion total recibida : $ "+ bonificacion_total.toFixed(2);
+            
+        }
+    </script>
+    
+</body>
+</html>

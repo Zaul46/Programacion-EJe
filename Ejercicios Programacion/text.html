@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label >Ingrese su Suelado Mensual : </label>
+    <input type="number" id="sueldo_mensual">
+    <br><br>
+    <label > Cuantos Meses ha trabajdo en el año? : </label>
+    <input type="number" id="meses_trabajados">
+    <br><br>
+    <label > Cuantas cargas familiares tiene : </label>
+    <input type="number"  id="familiares">
+    <br><br>
+    <button onclick="Calcular()">Mostrar</button>
+    <br><br>
+    <p id="ingreso_anual">IN</p>
+    <p id="porcentaje_impuesto">P</p>
+    <p id="descuento_dependiente">D</p>
+    <p id="total">T</p>
+    <p id="mensaje">M</p>
+
+    <script>
+        function Calcular(){
+            let ingreso_mensual = parseFloat(document.getElementById("sueldo_mensual").value);
+            let meses_trabajados = parseInt(document.getElementById("meses_trabajados").value);
+            let familiares = parseInt(document.getElementById("familiares").value);
+
+            let ingreso_anual_p = document.getElementById("ingreso_anual");
+            let porcentaje_impuesto_p = document.getElementById("porcentaje_impuesto");
+            let descuento_dependiente_p = document.getElementById("descuento_dependiente");
+            let total_p = document.getElementById("total");
+            let mensaje = document.getElementById("mensaje");
+
+            if (isNaN(ingreso_mensual) || ingreso_mensual < 0 || isNaN(meses_trabajados) || meses_trabajados < 0 || isNaN(familiares) || familiares < 0){
+                mensaje.textContent = "Ingrese numeros validos";
+                ingreso_anual_p.textContent = "";
+                porcentaje_impuesto_p.textContent = "";
+                descuento_dependiente_p.textContent = "";
+                total_p.textContent = "";
+                return;
+            }
+
+            mensaje.textContent = "";
+
+            let ingreso_anual = ingreso_mensual * meses_trabajados;
+            
+            let porcentaje_impuesto = 0;
+
+            if (ingreso_anual < 10000){
+                porcentaje_impuesto = 5;
+            }else if ( ingreso_anual <= 20000 ){
+                porcentaje_impuesto = 10;
+            }else if ( ingreso_anual < 35000 ){
+                porcentaje_impuesto = 15
+            }else {
+                porcentaje_impuesto = 20;
+            }
+            
+            let impuesto_bruto = ingreso_anual * (porcentaje_impuesto / 100);
+
+            let descuento = impuesto_bruto * (familiares* 0.01);
+
+            let impuestFinal = impuesto_bruto - descuento;
+
+            ingreso_anual_p.textContent  = "Ingreso Anual $ "+ ingreso_anual.toFixed(2);
+            porcentaje_impuesto_p.textContent = "Porcentaje de Impuesto : "+ porcentaje_impuesto + "%";
+            descuento_dependiente_p.textContent = "Descuento por Dependientes : $ " + descuento.toFixed(2) ;   
+            total_p.textContent = "Impuesto Final a Pagar : $ " + impuestFinal.toFixed(2);
+        }
+    </script>
+    
+</body>
+</html>
